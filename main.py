@@ -15,8 +15,13 @@ LIBRARYCACHE_GLOB = "/home/deck/.local/share/Steam/userdata/*/config/librarycach
 POLL_INTERVAL_SECONDS = 0.35
 CACHE_SCAN_INTERVAL_SECONDS = 1.5
 DUPLICATE_WINDOW_SECONDS = 8.0
-RARE_PERCENT_THRESHOLD = 10.0
 SKIP_CACHE_FILES = {"achievement_progress.json"}
+SETTINGS_FILENAME = "settings.json"
+DEFAULT_SETTINGS: Dict[str, Any] = {
+    "rare_threshold_percent": 10.0,
+    "show_unlock_percentage": False,
+}
+ICON_FIELD_CANDIDATES = ("strImage", "strIconURL", "strIcon", "strImageURL")
 
 
 class Plugin:
@@ -34,6 +39,7 @@ class Plugin:
         self._cache_mtimes: Dict[str, float] = {}
         self._known_unlocked: Dict[int, Set[str]] = {}
         self._recent_emit_keys: Dict[str, float] = {}
+        self._settings: Dict[str, Any] = dict(DEFAULT_SETTINGS)
         self._achievement_patterns = [
             re.compile(r"\bachievement\s+unlocked\b", re.IGNORECASE),
             re.compile(r"\bunlocked\s+achievement\b", re.IGNORECASE),
@@ -43,6 +49,7 @@ class Plugin:
 
     async def _main(self) -> None:
         self._stop_event.clear()
+        self._load_settings()
         await self._prime_librarycache_state()
         self._watcher_task = asyncio.create_task(
             self._watch_logs(), name="xboxachievements-logwatch"
@@ -83,6 +90,54 @@ class Plugin:
             "duplicate_window_seconds": DUPLICATE_WINDOW_SECONDS,
         }
 
+    async def get_settings(self) -> dict:
+        return dict(self._settings)
+
+    async def set_settings(self, settings: dict) -> dict:
+        if isinstance(settings, dict):
+            threshold = settings.get("rare_threshold_percent")
+            if isinstance(threshold, (int, float)):
+                self._settings["rare_threshold_percent"] = max(
+                    0.0, min(100.0, float(threshold))
+                )
+            show_pct = settings.get("show_unlock_percentage")
+            if isinstance(show_pct, bool):
+                self._settings["show_unlock_percentage"] = show_pct
+            self._save_settings()
+        return dict(self._settings)
+
+    def _settings_path(self) -> str:
+        base = getattr(decky, "DECKY_PLUGIN_SETTINGS_DIR", None) or decky.DECKY_PLUGIN_DIR
+        return os.path.join(base, SETTINGS_FILENAME)
+
+    def _load_settings(self) -> None:
+        path = self._settings_path()
+        try:
+            with open(path, "r", encoding="utf-8") as stream:
+                data = json.load(stream)
+            if isinstance(data, dict):
+                merged = dict(DEFAULT_SETTINGS)
+                merged.update({k: v for k, v in data.items() if k in DEFAULT_SETTINGS})
+                self._settings = merged
+                decky.logger.info("Settings loaded: %s", self._settings)
+                return
+        except FileNotFoundError:
+            pass
+        except Exception as err:
+            decky.logger.warning("Failed to load settings (%s); using defaults", err)
+        self._settings = dict(DEFAULT_SETTINGS)
+
+    def _save_settings(self) -> None:
+        path = self._settings_path()
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            tmp = f"{path}.tmp"
+            with open(tmp, "w", encoding="utf-8") as stream:
+                json.dump(self._settings, stream, indent=2)
+            os.replace(tmp, path)
+        except Exception as err:
+            decky.logger.error("Failed to save settings: %s", err)
+
     async def test_popup_main(self) -> None:
         await self._emit_notification(
             title="Achievement Unlocked",
@@ -91,6 +146,7 @@ class Plugin:
             line_hint="manual:test:main",
             source="manual",
             dedupe_key=f"manual:main:{time.monotonic()}",
+            rarity_percent=42.5,
         )
 
     async def test_popup_rare(self) -> None:
@@ -101,6 +157,7 @@ class Plugin:
             line_hint="manual:test:rare",
             source="manual",
             dedupe_key=f"manual:rare:{time.monotonic()}",
+            rarity_percent=2.3,
         )
 
     def _sound_path(self, is_rare: bool) -> str:
@@ -184,6 +241,8 @@ class Plugin:
         line_hint: str,
         source: str,
         dedupe_key: str,
+        icon_url: Optional[str] = None,
+        rarity_percent: Optional[float] = None,
     ) -> None:
         if self._dedupe_emit(dedupe_key):
             return
@@ -195,6 +254,9 @@ class Plugin:
             "subtitle": subtitle,
             "is_rare": is_rare,
             "timestamp": timestamp,
+            "icon_url": icon_url,
+            "rarity_percent": rarity_percent,
+            "show_unlock_percentage": bool(self._settings.get("show_unlock_percentage")),
         }
 
         asyncio.create_task(self._play_sound(is_rare))
@@ -317,7 +379,7 @@ class Plugin:
 
     def _parse_highlight(
         self, appid: int, achievements: Dict[str, Any], newly_unlocked: Set[str]
-    ) -> Optional[Tuple[str, str, bool, str]]:
+    ) -> Optional[Tuple[str, str, bool, str, Optional[str], Optional[float]]]:
         highlights = achievements.get("vecHighlight")
         if not isinstance(highlights, list):
             return None
@@ -344,15 +406,26 @@ class Plugin:
         ach_id = str(latest.get("strID") or "UNKNOWN")
         ach_name = str(latest.get("strName") or ach_id)
         ach_desc = str(latest.get("strDescription") or "").strip()
+
         rarity_value = latest.get("flAchieved")
-        is_rare = False
+        rarity_percent: Optional[float] = None
         if isinstance(rarity_value, (int, float)):
-            is_rare = float(rarity_value) <= RARE_PERCENT_THRESHOLD
+            rarity_percent = float(rarity_value)
+
+        threshold = float(self._settings.get("rare_threshold_percent", 10.0))
+        is_rare = rarity_percent is not None and rarity_percent <= threshold
+
+        icon_url: Optional[str] = None
+        for field in ICON_FIELD_CANDIDATES:
+            value = latest.get(field)
+            if isinstance(value, str) and value.strip():
+                icon_url = value.strip()
+                break
 
         title = "Rare Achievement Unlocked" if is_rare else "Achievement Unlocked"
         subtitle = ach_name if not ach_desc else f"{ach_name} - {ach_desc}"
         hint = f"appid={appid} id={ach_id} name={ach_name}"
-        return title, subtitle, is_rare, hint
+        return title, subtitle, is_rare, hint, icon_url, rarity_percent
 
     async def _prime_librarycache_state(self) -> None:
         for path in self._iter_librarycache_files():
@@ -398,13 +471,15 @@ class Plugin:
             return
 
         parsed = self._parse_highlight(appid, achievements, newly_unlocked)
+        icon_url: Optional[str] = None
+        rarity_percent: Optional[float] = None
         if parsed is None:
             title = "Achievement Unlocked"
             subtitle = f"App {appid} unlocked {len(newly_unlocked)} achievement(s)"
             is_rare = False
             hint = f"appid={appid} unlocked={','.join(sorted(newly_unlocked))}"
         else:
-            title, subtitle, is_rare, hint = parsed
+            title, subtitle, is_rare, hint, icon_url, rarity_percent = parsed
 
         await self._emit_notification(
             title=title,
@@ -413,6 +488,8 @@ class Plugin:
             line_hint=hint,
             source="librarycache",
             dedupe_key=f"librarycache:{appid}:{','.join(sorted(newly_unlocked))}",
+            icon_url=icon_url,
+            rarity_percent=rarity_percent,
         )
 
     async def _watch_librarycache(self) -> None:

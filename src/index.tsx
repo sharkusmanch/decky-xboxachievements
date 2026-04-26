@@ -10,6 +10,8 @@ import {
   ButtonItem,
   PanelSection,
   PanelSectionRow,
+  SliderField,
+  ToggleField,
   staticClasses,
 } from "@decky/ui";
 import { useCallback, useEffect, useState } from "react";
@@ -30,6 +32,16 @@ type BackendStatus = {
   log_path: string;
   librarycache_glob: string;
   duplicate_window_seconds: number;
+};
+
+type PluginSettings = {
+  rare_threshold_percent: number;
+  show_unlock_percentage: boolean;
+};
+
+const DEFAULT_SETTINGS: PluginSettings = {
+  rare_threshold_percent: 10.0,
+  show_unlock_percentage: false,
 };
 
 const toErrorMessage = (value: unknown): string => {
@@ -55,6 +67,7 @@ function StatusPanel() {
   const [statusError, setStatusError] = useState<string | null>(null);
   const [lastEvent, setLastEvent] = useState<NotificationPayload | null>(null);
   const [pendingAction, setPendingAction] = useState<string | null>(null);
+  const [settings, setSettings] = useState<PluginSettings>(DEFAULT_SETTINGS);
 
   const refreshStatus = useCallback(async () => {
     try {
@@ -65,6 +78,20 @@ function StatusPanel() {
       setStatusError(toErrorMessage(error));
     }
   }, []);
+
+  const updateSettings = useCallback(async (patch: Partial<PluginSettings>) => {
+    const optimistic = { ...settings, ...patch };
+    setSettings(optimistic);
+    try {
+      const next = await call<[Partial<PluginSettings>], PluginSettings>(
+        "set_settings",
+        patch,
+      );
+      setSettings(next);
+    } catch (error) {
+      setStatusError(toErrorMessage(error));
+    }
+  }, [settings]);
 
   useEffect(() => {
     const listener = addEventListener<[NotificationPayload]>(
@@ -77,6 +104,14 @@ function StatusPanel() {
     );
 
     void refreshStatus();
+    void (async () => {
+      try {
+        const loaded = await call<[], PluginSettings>("get_settings");
+        setSettings(loaded);
+      } catch (error) {
+        setStatusError(toErrorMessage(error));
+      }
+    })();
     const interval = window.setInterval(() => {
       void refreshStatus();
     }, 5000);
@@ -108,7 +143,7 @@ function StatusPanel() {
             disabled={pendingAction !== null}
             onClick={() => void trigger("test_popup_main")}
             layout="below"
-            description="Toont de standaard Xbox achievement popup."
+            description="Shows the standard Xbox achievement popup."
           >
             Test Main
           </ButtonItem>
@@ -118,10 +153,34 @@ function StatusPanel() {
             disabled={pendingAction !== null}
             onClick={() => void trigger("test_popup_rare")}
             layout="below"
-            description="Toont de rare-variant met glow en rare geluid."
+            description="Shows the rare variant with glow and rare sound."
           >
             Test Rare
           </ButtonItem>
+        </PanelSectionRow>
+      </PanelSection>
+
+      <PanelSection title="Settings">
+        <PanelSectionRow>
+          <ToggleField
+            label="Show unlock percentage"
+            description="Display the global rarity percent in the popup."
+            checked={settings.show_unlock_percentage}
+            onChange={(value) => void updateSettings({ show_unlock_percentage: value })}
+          />
+        </PanelSectionRow>
+        <PanelSectionRow>
+          <SliderField
+            label="Rare threshold"
+            description="Achievements unlocked by this percent of players or fewer use the rare popup and sound."
+            value={settings.rare_threshold_percent}
+            min={0}
+            max={50}
+            step={0.5}
+            showValue
+            valueSuffix="%"
+            onChange={(value) => void updateSettings({ rare_threshold_percent: value })}
+          />
         </PanelSectionRow>
       </PanelSection>
 
@@ -130,7 +189,7 @@ function StatusPanel() {
           <ButtonItem
             disabled={pendingAction !== null}
             onClick={() => void refreshStatus()}
-            description="Handmatige refresh van backend status."
+            description="Manually refresh backend status."
           >
             Refresh Status
           </ButtonItem>

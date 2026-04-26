@@ -115,11 +115,11 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".xboxachv-stage{display:grid;inset:0;padding-bottom:108px;place-items:end center;pointer-events:none;position:fixed;z-index:2147483000}.xboxachv-wrapper{--notifywidth:min(420px,calc(100vw - 28px));--notifyheight:60px;--transition:420ms;--displaytime:5200ms;--xbox-main:#107c10;--xbox-dark:#0f4f0f;--xbox-border:hsla(0,0%,100%,.18);filter:drop-shadow(0 10px 20px rgba(0,0,0,.45));height:var(--notifyheight);width:var(--notifywidth)}.xboxachv-achcont{--start:68px;align-items:center;animation:xboxachv-shell-seq var(--displaytime) cubic-bezier(.2,.8,.2,1) both;border-radius:30px;display:grid;grid-template-columns:auto 1fr;height:100%;isolation:isolate;opacity:0;overflow:hidden;position:relative;width:var(--start)}.xboxachv-bg{animation:xboxachv-bg-seq var(--displaytime) linear both;background:linear-gradient(105deg,var(--xbox-main),var(--xbox-dark));border:1px solid var(--xbox-border);border-radius:inherit;inset:0;opacity:0;position:absolute}.xboxachv-overlay{animation:xboxachv-overlay-sweep 1.6s linear 1.6s 2;background:#fff;filter:blur(30px);height:calc(var(--notifyheight)*2);left:50%;max-width:240px;opacity:0;position:absolute;top:50%;transform:skew(-28deg,0deg);translate:-145% -50%;width:28vw}.xboxachv-iconbg{animation:xboxachv-iconbg-seq var(--displaytime) linear both;background:linear-gradient(140deg,#1b8f1a,#116010);border-radius:28px;height:56px;margin-left:6px;scale:0;transform-origin:center;width:56px}.xboxachv-achiconwrapper{display:grid;height:56px;left:6px;place-items:center;position:absolute;top:2px;width:56px}.xboxachv-achiconwrapper:after,.xboxachv-achiconwrapper:before{border-radius:999px;content:\"\";display:none;inset:4px;position:absolute;z-index:-1}.xboxachv-rare .xboxachv-achiconwrapper:after,.xboxachv-rare .xboxachv-achiconwrapper:before{display:block}.xboxachv-rare .xboxachv-achiconwrapper:before{animation:xboxachv-rare-rotate 6.2s linear infinite reverse;background:conic-gradient(from 0deg,hsla(40,87%,68%,.95),hsla(40,87%,68%,.2),hsla(40,87%,68%,.95))}.xboxachv-rare .xboxachv-achiconwrapper:after{animation:xboxachv-rare-rotate 2.8s linear infinite;background:repeating-conic-gradient(rgba(255,216,132,.6),rgba(255,216,132,.04) 20deg);filter:blur(10px);inset:2px;mix-blend-mode:overlay}.xboxachv-iconborder{animation:xboxachv-iconpulse-seq var(--displaytime) linear both;border:1px solid hsla(0,0%,100%,.18);border-radius:999px;inset:6px;opacity:0;position:absolute}.xboxachv-icon{animation:xboxachv-iconpulse-seq var(--displaytime) linear both;background:hsla(0,0%,100%,.92);border-radius:999px;color:#0f6111;display:grid;height:40px;opacity:0;place-items:center;transform:scale(.78);width:40px}.xboxachv-achcontent{align-content:center;color:#f0fbf0;display:grid;font-family:Segoe UI,Noto Sans,Roboto,sans-serif;margin-left:10px;margin-right:12px;min-width:0;row-gap:1px;text-shadow:0 1px 1px rgba(0,0,0,.5)}.xboxachv-achcontent>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xboxachv-title,.xboxachv-unlockmsg{animation:xboxachv-toptext-seq var(--displaytime) linear both;opacity:0;transform:translateY(18px)}.xboxachv-unlockmsg{color:hsla(0,0%,100%,.95);font-size:12px}.xboxachv-title{font-size:13px;font-weight:700}.xboxachv-desc{animation:xboxachv-desc-seq var(--displaytime) linear both;font-size:12px;opacity:0;transform:translateY(110%)}.xboxachv-time{animation:xboxachv-time-seq var(--displaytime) linear both;bottom:7px;color:hsla(0,0%,100%,.7);font-size:10px;opacity:0;position:absolute;right:14px}.xboxachv-rare .xboxachv-bg{--xbox-border:hsla(40,87%,68%,.6);background:linear-gradient(108deg,#4b3d17,#2f240f)}.xboxachv-rare .xboxachv-iconbg{background:linear-gradient(140deg,#8a6a29,#5f471a)}.xboxachv-rare .xboxachv-icon{color:#6b4f18}@keyframes xboxachv-shell-seq{0%{opacity:0;transform:translateY(18px);width:var(--start)}8%{opacity:1}24%{opacity:1;transform:translateY(0);width:var(--notifywidth)}82%{opacity:1;transform:translateY(0);width:var(--notifywidth)}to{opacity:0;transform:translateY(18px);width:var(--start)}}@keyframes xboxachv-bg-seq{0%{opacity:0}16%{opacity:1}82%{opacity:1}to{opacity:0}}@keyframes xboxachv-overlay-sweep{0%{opacity:0;translate:-145% -50%}45%{opacity:.24;translate:0 -50%}to{opacity:0;translate:110% -50%}}@keyframes xboxachv-iconbg-seq{0%{scale:0}10%{scale:1}84%{scale:1}to{scale:0}}@keyframes xboxachv-iconpulse-seq{0%{opacity:0;transform:scale(.78)}14%{opacity:1;transform:scale(1)}78%{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.84)}}@keyframes xboxachv-toptext-seq{0%{opacity:0;transform:translateY(18px)}30%{opacity:1;transform:translateY(0)}48%{opacity:1;transform:translateY(0)}58%{opacity:0;transform:translateY(-18px)}to{opacity:0;transform:translateY(-18px)}}@keyframes xboxachv-desc-seq{0%{opacity:0;transform:translateY(110%)}42%{opacity:0;transform:translateY(110%)}58%{opacity:1;transform:translateY(0)}84%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-18px)}}@keyframes xboxachv-time-seq{0%{opacity:0}58%{opacity:0}68%{opacity:1}90%{opacity:1}to{opacity:0}}@keyframes xboxachv-rare-rotate{to{transform:rotate(1turn)}}";
+var css_248z = ".xboxachv-stage{display:grid;inset:0;padding-bottom:108px;place-items:end center;pointer-events:none;position:fixed;z-index:2147483000}.xboxachv-wrapper{--notifywidth:min(420px,calc(100vw - 28px));--notifyheight:60px;--transition:420ms;--displaytime:12000ms;--xbox-main:#203e7a;--xbox-dark:#0c2a66;--xbox-border:hsla(0,0%,100%,.18);filter:drop-shadow(0 10px 20px rgba(0,0,0,.45));height:var(--notifyheight);width:var(--notifywidth)}.xboxachv-achcont{--start:68px;align-items:center;animation:xboxachv-shell-seq var(--displaytime) cubic-bezier(.2,.8,.2,1) both;border-radius:30px;display:grid;grid-template-columns:auto 1fr;height:100%;isolation:isolate;opacity:0;overflow:hidden;position:relative;width:var(--start)}.xboxachv-bg{animation:xboxachv-bg-seq var(--displaytime) linear both;background:linear-gradient(105deg,var(--xbox-main),var(--xbox-dark));border:1px solid var(--xbox-border);border-radius:inherit;inset:0;opacity:0;position:absolute}.xboxachv-overlay{animation:xboxachv-overlay-sweep 1.6s linear 1.6s 2;background:#fff;filter:blur(30px);height:calc(var(--notifyheight)*2);left:50%;max-width:240px;opacity:0;position:absolute;top:50%;transform:skew(-28deg,0deg);translate:-145% -50%;width:28vw}.xboxachv-iconbg{animation:xboxachv-iconbg-seq var(--displaytime) linear both;background:linear-gradient(140deg,#3258a6,#1a3573);border-radius:28px;height:56px;margin-left:6px;scale:0;transform-origin:center;width:56px}.xboxachv-achiconwrapper{display:grid;height:56px;left:6px;place-items:center;position:absolute;top:2px;width:56px}.xboxachv-achiconwrapper:after,.xboxachv-achiconwrapper:before{border-radius:999px;content:\"\";display:none;inset:4px;position:absolute;z-index:-1}.xboxachv-rare .xboxachv-achiconwrapper:after,.xboxachv-rare .xboxachv-achiconwrapper:before{display:block}.xboxachv-rare .xboxachv-achiconwrapper:before{animation:xboxachv-rare-rotate 6.2s linear infinite reverse;background:conic-gradient(from 0deg,hsla(40,87%,68%,.95),hsla(40,87%,68%,.2),hsla(40,87%,68%,.95))}.xboxachv-rare .xboxachv-achiconwrapper:after{animation:xboxachv-rare-rotate 2.8s linear infinite;background:repeating-conic-gradient(rgba(255,216,132,.6),rgba(255,216,132,.04) 20deg);filter:blur(10px);inset:2px;mix-blend-mode:overlay}.xboxachv-iconborder{animation:xboxachv-iconpulse-seq var(--displaytime) linear both;border:1px solid hsla(0,0%,100%,.18);border-radius:999px;inset:6px;opacity:0;position:absolute}.xboxachv-icon{animation:xboxachv-iconpulse-seq var(--displaytime) linear both;background:hsla(0,0%,100%,.92);border-radius:999px;color:#0c2a66;display:grid;height:40px;opacity:0;place-items:center;transform:scale(.78);width:40px}.xboxachv-achcontent{align-content:center;color:#e8f0fb;display:grid;font-family:Segoe UI,Noto Sans,Roboto,sans-serif;margin-left:10px;margin-right:12px;min-width:0;row-gap:1px;text-shadow:0 1px 1px rgba(0,0,0,.5)}.xboxachv-achcontent>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xboxachv-title,.xboxachv-unlockmsg{animation:xboxachv-toptext-seq var(--displaytime) linear both;opacity:0;transform:translateY(18px)}.xboxachv-unlockmsg{color:hsla(0,0%,100%,.95);font-size:12px}.xboxachv-title{font-size:13px;font-weight:700}.xboxachv-desc{font-size:12px;transform:translateY(110%)}.xboxachv-desc,.xboxachv-rarity{animation:xboxachv-desc-seq var(--displaytime) linear both;opacity:0}.xboxachv-rarity{color:hsla(0,0%,100%,.85);font-size:11px}.xboxachv-iconimg{border-radius:999px;display:block;height:100%;object-fit:cover;width:100%}.xboxachv-rare .xboxachv-bg{--xbox-border:rgba(177,137,230,.6);background:linear-gradient(108deg,#639,#521f85)}.xboxachv-rare .xboxachv-iconbg{background:linear-gradient(140deg,#8a4fbb,#5b2e85)}.xboxachv-rare .xboxachv-icon{color:#3f1768}@keyframes xboxachv-shell-seq{0%{opacity:0;transform:translateY(18px);width:var(--start)}8%{opacity:1}24%{opacity:1;transform:translateY(0);width:var(--notifywidth)}82%{opacity:1;transform:translateY(0);width:var(--notifywidth)}to{opacity:0;transform:translateY(18px);width:var(--start)}}@keyframes xboxachv-bg-seq{0%{opacity:0}16%{opacity:1}82%{opacity:1}to{opacity:0}}@keyframes xboxachv-overlay-sweep{0%{opacity:0;translate:-145% -50%}45%{opacity:.24;translate:0 -50%}to{opacity:0;translate:110% -50%}}@keyframes xboxachv-iconbg-seq{0%{scale:0}10%{scale:1}84%{scale:1}to{scale:0}}@keyframes xboxachv-iconpulse-seq{0%{opacity:0;transform:scale(.78)}14%{opacity:1;transform:scale(1)}78%{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.84)}}@keyframes xboxachv-toptext-seq{0%{opacity:0;transform:translateY(18px)}30%{opacity:1;transform:translateY(0)}48%{opacity:1;transform:translateY(0)}58%{opacity:0;transform:translateY(-18px)}to{opacity:0;transform:translateY(-18px)}}@keyframes xboxachv-desc-seq{0%{opacity:0;transform:translateY(110%)}42%{opacity:0;transform:translateY(110%)}58%{opacity:1;transform:translateY(0)}84%{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-18px)}}@keyframes xboxachv-rare-rotate{to{transform:rotate(1turn)}}";
 styleInject(css_248z);
 
 const EVENT_NAME$1 = "xboxachievements_show";
-const SHOW_MS = 5200;
+const SHOW_MS = 12000;
 const SHADOW_STYLE_ID = "xboxachv-shadow-style";
 const TARGET_DOC_STYLE_ID = "xboxachv-targetdoc-style";
 const STYLE_SENTINEL = ".xboxachv-stage{";
@@ -128,17 +128,14 @@ const defaultPayload = {
     subtitle: "Waiting for events...",
     is_rare: false,
     timestamp: new Date().toISOString(),
+    icon_url: null,
+    rarity_percent: null,
+    show_unlock_percentage: false,
 };
-const formatClock = (timestamp) => {
-    const parsed = new Date(timestamp);
-    if (Number.isNaN(parsed.getTime())) {
-        return timestamp;
-    }
-    return parsed.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-    });
+const formatRarity = (value) => {
+    if (value >= 10)
+        return `${value.toFixed(1)}% of players`;
+    return `${value.toFixed(2)}% of players`;
 };
 const trimSubtitle = (value) => {
     const normalized = value.trim();
@@ -205,7 +202,6 @@ function XboxNotification() {
         }
     }, [active, runKey]);
     const subtitle = SP_REACT.useMemo(() => trimSubtitle(payload.subtitle), [payload.subtitle]);
-    const clock = SP_REACT.useMemo(() => formatClock(payload.timestamp), [payload.timestamp]);
     const unlockMessage = payload.is_rare
         ? "Rare Achievement Unlocked"
         : "Achievement Unlocked";
@@ -216,15 +212,25 @@ function XboxNotification() {
     const showSubtitle = normalizedSubtitle.length > 0 &&
         normalizedSubtitle !== normalizedUnlockMessage &&
         normalizedSubtitle !== normalizedTitle;
+    const [iconFailed, setIconFailed] = SP_REACT.useState(false);
+    SP_REACT.useEffect(() => setIconFailed(false), [payload.icon_url, runKey]);
+    const showIcon = !iconFailed && typeof payload.icon_url === "string" && payload.icon_url.length > 0;
+    const showRarity = payload.show_unlock_percentage === true &&
+        typeof payload.rarity_percent === "number" &&
+        Number.isFinite(payload.rarity_percent);
     if (!active) {
         return null;
     }
-    return (SP_JSX.jsx("div", { ref: stageRef, className: "xboxachv-stage", "aria-live": "polite", children: SP_JSX.jsx("div", { className: `xboxachv-wrapper ${payload.is_rare ? "xboxachv-rare" : ""}`, children: SP_JSX.jsxs("div", { className: "xboxachv-achcont", children: [SP_JSX.jsx("div", { className: "xboxachv-bg", children: SP_JSX.jsx("div", { className: "xboxachv-overlay" }) }), SP_JSX.jsx("div", { className: "xboxachv-iconbg" }), SP_JSX.jsxs("div", { className: "xboxachv-achiconwrapper", children: [SP_JSX.jsx("div", { className: "xboxachv-iconborder" }), SP_JSX.jsx("div", { className: "xboxachv-icon", children: SP_JSX.jsx(FaXbox, { size: 24 }) })] }), SP_JSX.jsxs("div", { className: "xboxachv-achcontent", children: [SP_JSX.jsx("span", { className: "xboxachv-unlockmsg", children: unlockMessage }), showTitle ? SP_JSX.jsx("span", { className: "xboxachv-title", children: payload.title }) : null, showSubtitle ? SP_JSX.jsx("span", { className: "xboxachv-desc", children: subtitle }) : null] }), SP_JSX.jsx("span", { className: "xboxachv-time", children: clock })] }) }, runKey) }));
+    return (SP_JSX.jsx("div", { ref: stageRef, className: "xboxachv-stage", "aria-live": "polite", children: SP_JSX.jsx("div", { className: `xboxachv-wrapper ${payload.is_rare ? "xboxachv-rare" : ""}`, children: SP_JSX.jsxs("div", { className: "xboxachv-achcont", children: [SP_JSX.jsx("div", { className: "xboxachv-bg", children: SP_JSX.jsx("div", { className: "xboxachv-overlay" }) }), SP_JSX.jsx("div", { className: "xboxachv-iconbg" }), SP_JSX.jsxs("div", { className: "xboxachv-achiconwrapper", children: [SP_JSX.jsx("div", { className: "xboxachv-iconborder" }), SP_JSX.jsx("div", { className: "xboxachv-icon", children: showIcon ? (SP_JSX.jsx("img", { className: "xboxachv-iconimg", src: payload.icon_url, alt: "", onError: () => setIconFailed(true) })) : (SP_JSX.jsx(FaXbox, { size: 24 })) })] }), SP_JSX.jsxs("div", { className: "xboxachv-achcontent", children: [SP_JSX.jsx("span", { className: "xboxachv-unlockmsg", children: unlockMessage }), showTitle ? SP_JSX.jsx("span", { className: "xboxachv-title", children: payload.title }) : null, showSubtitle ? SP_JSX.jsx("span", { className: "xboxachv-desc", children: subtitle }) : null, showRarity ? (SP_JSX.jsx("span", { className: "xboxachv-rarity", children: formatRarity(payload.rarity_percent) })) : null] })] }) }, runKey) }));
 }
 
 const GLOBAL_COMPONENT_NAME = "XboxAchievementsOverlay";
 const EVENT_NAME = "xboxachievements_show";
 let overlayToastListener = null;
+const DEFAULT_SETTINGS = {
+    rare_threshold_percent: 10.0,
+    show_unlock_percentage: false,
+};
 const toErrorMessage = (value) => {
     if (value instanceof Error) {
         return value.message;
@@ -246,6 +252,7 @@ function StatusPanel() {
     const [statusError, setStatusError] = SP_REACT.useState(null);
     const [lastEvent, setLastEvent] = SP_REACT.useState(null);
     const [pendingAction, setPendingAction] = SP_REACT.useState(null);
+    const [settings, setSettings] = SP_REACT.useState(DEFAULT_SETTINGS);
     const refreshStatus = SP_REACT.useCallback(async () => {
         try {
             const next = await call("get_status");
@@ -256,6 +263,17 @@ function StatusPanel() {
             setStatusError(toErrorMessage(error));
         }
     }, []);
+    const updateSettings = SP_REACT.useCallback(async (patch) => {
+        const optimistic = { ...settings, ...patch };
+        setSettings(optimistic);
+        try {
+            const next = await call("set_settings", patch);
+            setSettings(next);
+        }
+        catch (error) {
+            setStatusError(toErrorMessage(error));
+        }
+    }, [settings]);
     SP_REACT.useEffect(() => {
         const listener = addEventListener(EVENT_NAME, (payload) => {
             if (payload) {
@@ -263,6 +281,15 @@ function StatusPanel() {
             }
         });
         void refreshStatus();
+        void (async () => {
+            try {
+                const loaded = await call("get_settings");
+                setSettings(loaded);
+            }
+            catch (error) {
+                setStatusError(toErrorMessage(error));
+            }
+        })();
         const interval = window.setInterval(() => {
             void refreshStatus();
         }, 5000);
@@ -281,7 +308,7 @@ function StatusPanel() {
             setPendingAction(null);
         }
     }, [refreshStatus]);
-    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs(DFL.PanelSection, { title: "Popup Tests", children: [SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { disabled: pendingAction !== null, onClick: () => void trigger("test_popup_main"), layout: "below", description: "Toont de standaard Xbox achievement popup.", children: "Test Main" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { disabled: pendingAction !== null, onClick: () => void trigger("test_popup_rare"), layout: "below", description: "Toont de rare-variant met glow en rare geluid.", children: "Test Rare" }) })] }), SP_JSX.jsxs(DFL.PanelSection, { title: "Watcher Status", children: [SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { disabled: pendingAction !== null, onClick: () => void refreshStatus(), description: "Handmatige refresh van backend status.", children: "Refresh Status" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { children: [SP_JSX.jsxs("div", { children: ["Log watcher: ", SP_JSX.jsx("strong", { children: status?.watcher_running ? "yes" : "no" })] }), SP_JSX.jsxs("div", { children: ["Cache watcher:", " ", SP_JSX.jsx("strong", { children: status?.librarycache_watcher_running ? "yes" : "no" })] }), SP_JSX.jsxs("div", { children: ["Last match: ", formatTimestamp(status?.last_match_timestamp ?? null)] }), SP_JSX.jsxs("div", { children: ["Last source: ", status?.last_match_source ?? "-"] }), SP_JSX.jsxs("div", { children: ["Duplicate window: ", status?.duplicate_window_seconds ?? "?", "s"] }), SP_JSX.jsxs("div", { children: ["Log path: ", status?.log_path ?? "unknown"] }), SP_JSX.jsxs("div", { children: ["Cache files seen: ", status?.librarycache_files_seen ?? "?"] }), SP_JSX.jsxs("div", { children: ["Cache glob: ", status?.librarycache_glob ?? "unknown"] }), SP_JSX.jsxs("div", { children: ["Sample: ", status?.last_match_sample ?? "-"] }), SP_JSX.jsxs("div", { children: ["Last event:", " ", lastEvent
+    return (SP_JSX.jsxs(SP_JSX.Fragment, { children: [SP_JSX.jsxs(DFL.PanelSection, { title: "Popup Tests", children: [SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { disabled: pendingAction !== null, onClick: () => void trigger("test_popup_main"), layout: "below", description: "Shows the standard Xbox achievement popup.", children: "Test Main" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { disabled: pendingAction !== null, onClick: () => void trigger("test_popup_rare"), layout: "below", description: "Shows the rare variant with glow and rare sound.", children: "Test Rare" }) })] }), SP_JSX.jsxs(DFL.PanelSection, { title: "Settings", children: [SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ToggleField, { label: "Show unlock percentage", description: "Display the global rarity percent in the popup.", checked: settings.show_unlock_percentage, onChange: (value) => void updateSettings({ show_unlock_percentage: value }) }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.SliderField, { label: "Rare threshold", description: "Achievements unlocked by this percent of players or fewer use the rare popup and sound.", value: settings.rare_threshold_percent, min: 0, max: 50, step: 0.5, showValue: true, valueSuffix: "%", onChange: (value) => void updateSettings({ rare_threshold_percent: value }) }) })] }), SP_JSX.jsxs(DFL.PanelSection, { title: "Watcher Status", children: [SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsx(DFL.ButtonItem, { disabled: pendingAction !== null, onClick: () => void refreshStatus(), description: "Manually refresh backend status.", children: "Refresh Status" }) }), SP_JSX.jsx(DFL.PanelSectionRow, { children: SP_JSX.jsxs("div", { children: [SP_JSX.jsxs("div", { children: ["Log watcher: ", SP_JSX.jsx("strong", { children: status?.watcher_running ? "yes" : "no" })] }), SP_JSX.jsxs("div", { children: ["Cache watcher:", " ", SP_JSX.jsx("strong", { children: status?.librarycache_watcher_running ? "yes" : "no" })] }), SP_JSX.jsxs("div", { children: ["Last match: ", formatTimestamp(status?.last_match_timestamp ?? null)] }), SP_JSX.jsxs("div", { children: ["Last source: ", status?.last_match_source ?? "-"] }), SP_JSX.jsxs("div", { children: ["Duplicate window: ", status?.duplicate_window_seconds ?? "?", "s"] }), SP_JSX.jsxs("div", { children: ["Log path: ", status?.log_path ?? "unknown"] }), SP_JSX.jsxs("div", { children: ["Cache files seen: ", status?.librarycache_files_seen ?? "?"] }), SP_JSX.jsxs("div", { children: ["Cache glob: ", status?.librarycache_glob ?? "unknown"] }), SP_JSX.jsxs("div", { children: ["Sample: ", status?.last_match_sample ?? "-"] }), SP_JSX.jsxs("div", { children: ["Last event:", " ", lastEvent
                                             ? `${lastEvent.title} @ ${formatTimestamp(lastEvent.timestamp)}`
                                             : "none"] }), statusError ? (SP_JSX.jsxs("div", { style: { color: "#ff8a80" }, children: ["Status error: ", statusError] })) : null] }) })] })] }));
 }

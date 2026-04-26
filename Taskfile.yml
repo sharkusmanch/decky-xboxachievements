@@ -1,0 +1,65 @@
+version: '3'
+
+vars:
+  DECK_HOST: '{{.DECK_HOST | default "deck@192.168.20.200"}}'
+  RCLONE_REMOTE: '{{.RCLONE_REMOTE | default "legion"}}'
+  PLUGIN_NAME: XboxAchievements
+  DECK_DIR: /home/deck/homebrew/plugins/{{.PLUGIN_NAME}}
+  REMOTE_DIR: '{{.RCLONE_REMOTE}}:{{.DECK_DIR}}'
+  SSH_OPTS: -o StrictHostKeyChecking=accept-new
+
+tasks:
+  default:
+    desc: Build and deploy to the Steam Deck
+    cmds:
+      - task: deploy
+
+  install:
+    desc: Install frontend dependencies
+    ignore_error: true
+    cmds:
+      - pnpm install --frozen-lockfile
+
+  build:
+    desc: Build the frontend bundle
+    deps: [install]
+    ignore_error: true
+    cmds:
+      - pnpm build
+
+  setup:
+    desc: One-time setup - create plugin dir on Deck and chown to deck (sudo prompt)
+    cmds:
+      - ssh {{.SSH_OPTS}} -t {{.DECK_HOST}} 'sudo mkdir -p {{.DECK_DIR}}/dist {{.DECK_DIR}}/assets && sudo chown -R deck:deck {{.DECK_DIR}}'
+
+  deploy:
+    desc: Build, sync plugin files to the Deck, and restart plugin_loader
+    deps: [build]
+    cmds:
+      - rclone sync dist/ {{.REMOTE_DIR}}/dist/
+      - rclone sync assets/ {{.REMOTE_DIR}}/assets/
+      - rclone copy main.py {{.REMOTE_DIR}}/
+      - rclone copy plugin.json {{.REMOTE_DIR}}/
+      - rclone copy package.json {{.REMOTE_DIR}}/
+      - echo "Deployed to {{.REMOTE_DIR}}"
+      - task: restart
+
+  restart:
+    desc: Restart the Decky plugin loader (prompts for sudo password)
+    cmds:
+      - ssh {{.SSH_OPTS}} -t {{.DECK_HOST}} 'sudo systemctl restart plugin_loader'
+
+  status:
+    desc: Show plugin loader status on the Deck
+    cmds:
+      - ssh {{.SSH_OPTS}} {{.DECK_HOST}} 'systemctl --no-pager --full status plugin_loader | head -n 20'
+
+  logs:
+    desc: Tail plugin loader logs from the Deck
+    cmds:
+      - ssh {{.SSH_OPTS}} -t {{.DECK_HOST}} 'sudo journalctl -u plugin_loader -f -n 100'
+
+  clean:
+    desc: Remove local build artifacts
+    cmds:
+      - rm -rf dist node_modules

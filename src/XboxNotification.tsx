@@ -8,10 +8,13 @@ export type NotificationPayload = {
   subtitle: string;
   is_rare: boolean;
   timestamp: string;
+  icon_url?: string | null;
+  rarity_percent?: number | null;
+  show_unlock_percentage?: boolean;
 };
 
 const EVENT_NAME = "xboxachievements_show";
-const SHOW_MS = 5200;
+const SHOW_MS = 12000;
 const SHADOW_STYLE_ID = "xboxachv-shadow-style";
 const TARGET_DOC_STYLE_ID = "xboxachv-targetdoc-style";
 const STYLE_SENTINEL = ".xboxachv-stage{";
@@ -21,19 +24,14 @@ const defaultPayload: NotificationPayload = {
   subtitle: "Waiting for events...",
   is_rare: false,
   timestamp: new Date().toISOString(),
+  icon_url: null,
+  rarity_percent: null,
+  show_unlock_percentage: false,
 };
 
-const formatClock = (timestamp: string): string => {
-  const parsed = new Date(timestamp);
-  if (Number.isNaN(parsed.getTime())) {
-    return timestamp;
-  }
-
-  return parsed.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+const formatRarity = (value: number): string => {
+  if (value >= 10) return `${value.toFixed(1)}% of players`;
+  return `${value.toFixed(2)}% of players`;
 };
 
 const trimSubtitle = (value: string): string => {
@@ -116,7 +114,6 @@ export default function XboxNotification() {
   }, [active, runKey]);
 
   const subtitle = useMemo(() => trimSubtitle(payload.subtitle), [payload.subtitle]);
-  const clock = useMemo(() => formatClock(payload.timestamp), [payload.timestamp]);
   const unlockMessage = payload.is_rare
     ? "Rare Achievement Unlocked"
     : "Achievement Unlocked";
@@ -128,6 +125,13 @@ export default function XboxNotification() {
     normalizedSubtitle.length > 0 &&
     normalizedSubtitle !== normalizedUnlockMessage &&
     normalizedSubtitle !== normalizedTitle;
+  const [iconFailed, setIconFailed] = useState(false);
+  useEffect(() => setIconFailed(false), [payload.icon_url, runKey]);
+  const showIcon = !iconFailed && typeof payload.icon_url === "string" && payload.icon_url.length > 0;
+  const showRarity =
+    payload.show_unlock_percentage === true &&
+    typeof payload.rarity_percent === "number" &&
+    Number.isFinite(payload.rarity_percent);
 
   if (!active) {
     return null;
@@ -150,7 +154,16 @@ export default function XboxNotification() {
             <div className="xboxachv-iconborder" />
 
             <div className="xboxachv-icon">
-              <FaXbox size={24} />
+              {showIcon ? (
+                <img
+                  className="xboxachv-iconimg"
+                  src={payload.icon_url as string}
+                  alt=""
+                  onError={() => setIconFailed(true)}
+                />
+              ) : (
+                <FaXbox size={24} />
+              )}
             </div>
           </div>
 
@@ -158,9 +171,12 @@ export default function XboxNotification() {
             <span className="xboxachv-unlockmsg">{unlockMessage}</span>
             {showTitle ? <span className="xboxachv-title">{payload.title}</span> : null}
             {showSubtitle ? <span className="xboxachv-desc">{subtitle}</span> : null}
+            {showRarity ? (
+              <span className="xboxachv-rarity">
+                {formatRarity(payload.rarity_percent as number)}
+              </span>
+            ) : null}
           </div>
-
-          <span className="xboxachv-time">{clock}</span>
         </div>
       </div>
     </div>
